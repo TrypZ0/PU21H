@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Ostoslaskudata Porvoo 2021</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+          font-family: Arial, sans-serif;
+          background-color: #f5f5f5;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+        #container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #fff;
+          box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        h1 {
+          text-align: center;
+          font-size: 36px;
+          margin-top: 0;
+          margin-bottom: 20px;
+        }
+        canvas {
+          display: block;
+          margin: 0 auto;
+        }
+      </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>Ostoslaskudata Porvoo 2021 - TOP 5</h1>
+      <canvas id="lineChart" width="800" height="400"></canvas>
+    </div>
+    <script>
+      var ctx = document.getElementById("lineChart").getContext("2d");
+      var lineChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: {{ labels | safe }},
+          datasets: [
+            {
+              label: "Data points",
+              data: {{ values | safe }},
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.6)', // Red
+                'rgba(54, 162, 235, 0.6)', // Blue
+                'rgba(255, 206, 86, 0.6)', // Yellow
+                'rgba(75, 192, 192, 0.6)', // Green
+                'rgba(153, 102, 255, 0.6)', // Purple
+                'rgba(255, 159, 64, 0.6)' // Orange
+              ],
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: false
+        }
+      });
+    </script>
+  </body>
+</html>
