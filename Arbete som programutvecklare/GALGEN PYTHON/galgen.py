@@ -1,7 +1,4 @@
 import random
-import tkinter as tk
-
-window = tk.Tk()
 
 # List of words to choose from
 words = ['python', 'computer', 'algorithm', 'guitar', 'hamburger', 'rainbow', 'jazz', 'ocean', 'umbrella', 'television']
