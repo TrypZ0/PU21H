@@ -1,24 +1,25 @@
 import random
 
-# List of words to choose from
-words = ['python', 'computer', 'algorithm', 'guitar', 'hamburger', 'rainbow', 'jazz', 'ocean', 'umbrella', 'television']
+# Lista av ord som spelet kan be efter
+words = ['python', 'computer', 'algorithm', 'guitar', 'hamburger',
+         'rainbow', 'jazz', 'ocean', 'umbrella', 'television']
 
-# Select a random word from the list
+# Väljer ett slumpmässigt ord ur listan med hjälp av random modulen
 word = random.choice(words)
 
-# Create a list of underscores to represent the hidden word
+# Rita ut understräcken (_) för att representera bokstäver som inte gissats än
 hidden_word = ['_'] * len(word)
 
-# Keep track of the guessed letters
+# håller koll på vilka bokstäver spelaren redan missat
 guessed_letters = []
 
-# Maximum number of incorrect guesses
+# Hur många gissningar en spelare har före spelet är över
 max_guesses = 6
 
-# Keep track of the number of incorrect guesses
+# Håller koll på hur många gånger spelaren gissat fel, kan sedan jämföras med max_guesses övanför
 num_guesses = 0
 
-# Hangman ASCII art
+# Otroligt vacker ASCII grafik för spelet så att man visuellt ser gubben ritas ut. hoppar framåt ett steg i array:n för varje fel gissning.
 hangman = [
     """
     +---+
@@ -85,43 +86,53 @@ hangman = [
     """
 ]
 
-# Main game loop
+# Spelets gång
 while True:
-    # Print the current state of the hidden word
+    # Printar ut dom osynliga bokstäverna (_)
     print(' '.join(hidden_word))
-    
-    # Print the hangman ASCII art
+
+    # Ritar ut den framen av ascii konst som motsvarar antalet felaktiga gissningar
     print(hangman[num_guesses])
-    
-    # Ask the user for a guess
+
+    # Ber spelaren att gissa en bokstav
     guess = input('Guess a letter: ').lower()
-    
-    # Check if the guess has already been made
+
+    # Kolla ifall bokstaven redan gissats, om ja så upplyses spelaren att den redan gissat bokstaven.
     if guess in guessed_letters:
         print('You already guessed that letter!')
         continue
-    
-    # Add the guess to the list of guessed letters
+
+    # lägger till felaktiga gissningar till listan av gissade bokstäver
     guessed_letters.append(guess)
-    
-    # Check if the guess is in the word
+
+    # Koller ifall gissningen finns i ordet, alltså ifall gissningen är rätt
     if guess in word:
-        # Replace the underscores with the guessed letter
+        # byter ut motsvarande tomma bokstäverna med dom riktiga rättgissade bokstäverna
         for i in range(len(word)):
             if word[i] == guess:
                 hidden_word[i] = guess
     else:
-        # Incorrect guess
+        # Spelaren gissar fel
         num_guesses += 1
         print('Incorrect guess!')
-        
-        # Check if the maximum number of guesses has been reached
+
+        # Håller koll på ifall spelaren använt upp alla sina gissningar
         if num_guesses == max_guesses:
             print('You lose! The word was', word)
             print(hangman[num_guesses])
-            break
-    
-    # Check if the word has been guessed
+            
+
+# Håller koll på om ordet blivit gissat
     if ''.join(hidden_word) == word:
         print('Congratulations, you guessed the word!')
-        break
+        play_again = input(
+            "Press ENTER to play again or press escape to exit game: ")
+        if play_again.lower() == "escape":
+            break
+        else:
+            # Väljer ett nytt ord att spela med och återställer variabler
+            word = random.choice(words)
+            hidden_word = ['_'] * len(word)
+            guessed_letters = []
+            num_guesses = 0
+            continue
